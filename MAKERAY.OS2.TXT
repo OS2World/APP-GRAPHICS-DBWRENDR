@@ -1,0 +1,75 @@
+#########################################################################
+# 									#
+# 		    Copyright (c) 1987, David B. Wecker			#
+# 			    All Rights Reserved				#
+# 									#
+#  This file is part of DBW_Render					#
+# 									#
+#  DBW_Render is distributed in the hope that it will be useful, but	#
+#  WITHOUT ANY WARRANTY. No author or distributor accepts		#
+#  responsibility to anyone for the consequences of using it or for	#
+#  whether it serves any particular purpose or works at all, unless	#
+#  he says so in writing. Refer to the DBW_Render General Public	#
+#  License for full details.						#
+# 									#
+#  Everyone is granted permission to copy, modify and redistribute	#
+#  DBW_Render, but only under the conditions described in the		#
+#  DBW_Render General Public License. A copy of this license is		#
+#  supposed to have been given to you along with DBW_Render so you	#
+#  can know your rights and responsibilities. It should be in a file	#
+#  named COPYING. Among other things, the copyright notice and this	#
+#  notice must be preserved on all copies.				#
+#########################################################################
+#									#
+# Authors:								#
+#	DBW - David B. Wecker						#
+#	jhl - John H. Lowery (IBM port)					#
+#									#
+# Versions:								#
+#	V1.0 870125 DBW	- First released version			#
+#	V2.0 891031 jhl - ported to IBM PC, Microsoft C 5.1, MS MAKE 	#
+#	     900515 kvl	- compiled for OS/2 Bound version by Kevin Lowey#
+#			  (No source code changes, just make file change#
+#									#
+#########################################################################
+
+COMPILE = CL /AL /Gs /c 
+
+ray.obj : ray.c ray.h
+	$(COMPILE) ray.c
+
+cal.obj : cal.c ray.h
+	$(COMPILE) cal.c
+
+ext.obj : ext.c ray.h
+	$(COMPILE) ext.c
+
+fil.obj : fil.c ray.h
+	$(COMPILE) fil.c
+
+hit.obj : hit.c ray.h
+	$(COMPILE) hit.c
+
+int.obj : int.c ray.h
+	$(COMPILE) int.c
+
+mth.obj : mth.c ray.h
+	$(COMPILE) mth.c
+
+rnd.obj : rnd.c ray.h
+	$(COMPILE) rnd.c
+
+tex.obj : tex.c ray.h
+	$(COMPILE) tex.c
+
+val.obj : val.c ray.h
+	$(COMPILE) val.c
+
+# WARNING:  DO NOT allow LINK's command line to exceed 128 characters
+#            or it will fail.
+
+ray.exe : ray.obj cal.obj ext.obj fil.obj hit.obj int.obj mth.obj \
+          rnd.obj tex.obj val.obj
+LINK ray+cal+ext+fil+hit+int+mth+rnd+tex+val,ray /ST:32000,ray /MAP;
+bind ray.exe c:\os2\doscalls.lib
+
